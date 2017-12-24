@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.bkozyrev.dogs.adapters.AllBreedsListAdapter;
 import com.bkozyrev.dogs.interfaces.OnBreedResponseListener;
+import com.bkozyrev.dogs.interfaces.OnImageResponseListener;
 
 import java.util.ArrayList;
 
@@ -38,18 +39,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mList.setLayoutManager(new LinearLayoutManager(this));
         mList.setAdapter(mAdapter = new AllBreedsListAdapter(this, this));
         mProgressBar = findViewById(R.id.progress_bar);
-        mProgressBar.setVisibility(View.VISIBLE);
 
+        requestData();
+    }
+
+    private void requestData() {
+        mProgressBar.setVisibility(View.VISIBLE);
         getApi.getAllBreeds(new OnBreedResponseListener() {
             @Override
             public void onBreedsResponseSuccess(final ArrayList<String> breeds) {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.addData(breeds);
                         mProgressBar.setVisibility(View.GONE);
+                        mSwipeRefresh.setRefreshing(false);
                     }
                 });
+
+                for (final String breedName: breeds) {
+                    getApi.getBreedRandomImage(breedName, new OnImageResponseListener() {
+                        @Override
+                        public void onImageResponseSuccess(final String imageUrl) {
+                            mainHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mAdapter.updateItem(breedName, imageUrl, breeds.indexOf(breedName));
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onBreedResponseFail() {
+
+                        }
+                    });
+                }
             }
 
             @Override
@@ -66,14 +90,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onRefresh() {
-
+        mAdapter.clearData();
+        requestData();
     }
 
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(MainActivity.this, BreedImagesActivity.class);
         intent.putExtra(BreedImagesActivity.BREED_NAME_EXTRA,
-                mAdapter.getItem(mList.getChildAdapterPosition((View) view.getParent().getParent())));
+                mAdapter.getItem(mList.getChildAdapterPosition((View) view.getParent().getParent())).getBreedName());
         startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs;
+package com.bkozyrev.dogs.model;
 
 import com.google.gson.annotations.SerializedName;
 

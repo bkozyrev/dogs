@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bkozyrev.dogs.R;
+import com.bkozyrev.dogs.model.BreedItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ public class AllBreedsListAdapter extends RecyclerView.Adapter<AllBreedsListAdap
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<String> mData, mDataOrigin;
+    private List<BreedItem> mData, mDataOrigin;
     private View.OnClickListener mClickListener;
 
     public AllBreedsListAdapter(Context context, View.OnClickListener clickListener) {
@@ -51,17 +53,17 @@ public class AllBreedsListAdapter extends RecyclerView.Adapter<AllBreedsListAdap
         notifyDataSetChanged();
     }
 
-    public void addData(List<String> data) {
-        mData.addAll(data);
-        mDataOrigin.addAll(data);
-        notifyItemRangeInserted(mData.size() - data.size(), data.size());
+    public void updateItem(String breedName, String imageUrl, int position) {
+        mData.add(new BreedItem(breedName, imageUrl));
+        mDataOrigin.add(new BreedItem(breedName, imageUrl));
+        notifyItemChanged(position);
     }
 
-    public String getBreedName(int pos) {
+    public BreedItem getBreedName(int pos) {
         return mData.get(pos);
     }
 
-    public String getItem(int pos) {
+    public BreedItem getItem(int pos) {
         return pos < mData.size() ? mData.get(pos) : null;
     }
 
@@ -71,9 +73,9 @@ public class AllBreedsListAdapter extends RecyclerView.Adapter<AllBreedsListAdap
             mData.addAll(mDataOrigin);
         } else {
             query = query.toLowerCase();
-            for (String breedName : mDataOrigin) {
-                if (breedName.toLowerCase().startsWith(query)) {
-                    mData.add(breedName);
+            for (BreedItem breedItem : mDataOrigin) {
+                if (breedItem.getBreedName().toLowerCase().startsWith(query)) {
+                    mData.add(breedItem);
                 }
             }
         }
@@ -97,10 +99,10 @@ public class AllBreedsListAdapter extends RecyclerView.Adapter<AllBreedsListAdap
             likeContainer.setOnClickListener(mClickListener);
         }
 
-        public void bind(String breedName) {
-            String upperString = breedName.substring(0, 1).toUpperCase() + breedName.substring(1);
+        public void bind(BreedItem breedItem) {
+            String upperString = breedItem.getBreedName().substring(0, 1).toUpperCase() + breedItem.getBreedName().substring(1);
             tvName.setText(upperString);
-            //Glide.with(mContext).load(breedResponse.getBreedImageUrl()).into(ivBreed);
+            Picasso.with(mContext).load(breedItem.getBreedImageUrl()).into(ivBreed);
         }
     }
 }

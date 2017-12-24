@@ -1,6 +1,9 @@
 package com.bkozyrev.dogs;
 
 import com.bkozyrev.dogs.interfaces.OnBreedResponseListener;
+import com.bkozyrev.dogs.interfaces.OnImageResponseListener;
+import com.bkozyrev.dogs.model.BreedResponse;
+import com.bkozyrev.dogs.model.RandomImageResponse;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -17,6 +20,7 @@ public class HttpGet {
     private String allBreedsUrl = "https://dog.ceo/api/breeds/list";
     private String allBreedImagesUrlFirstPart = "https://dog.ceo/api/breed/";
     private String allBreedImagesUrlSecondPart = "/images";
+    private String breedRandomImageUrlSecondPart = "/images/random";
 
     private final OkHttpClient client;
     private final Gson gson = new Gson();
@@ -59,6 +63,24 @@ public class HttpGet {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 listener.onBreedsResponseSuccess(gson.fromJson(response.body().string(), BreedResponse.class).getBreedData());
+            }
+        });
+    }
+
+    public void getBreedRandomImage(String breedName, final OnImageResponseListener listener) {
+        Request request = new Request.Builder()
+                .url(allBreedImagesUrlFirstPart + breedName + breedRandomImageUrlSecondPart)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onBreedResponseFail();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onImageResponseSuccess(gson.fromJson(response.body().string(), RandomImageResponse.class).getBreedData());
             }
         });
     }

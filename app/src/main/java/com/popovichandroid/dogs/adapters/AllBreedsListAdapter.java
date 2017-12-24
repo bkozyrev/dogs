@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs.adapters;
+package com.popovichandroid.dogs.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.bkozyrev.dogs.R;
-import com.bkozyrev.dogs.model.BreedItem;
+import com.popovichandroid.dogs.R;
+import com.popovichandroid.dogs.model.BreedItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

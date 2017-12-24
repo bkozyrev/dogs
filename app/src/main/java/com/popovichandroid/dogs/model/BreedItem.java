@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs.model;
+package com.popovichandroid.dogs.model;
 
 public class BreedItem {
 

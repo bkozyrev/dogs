@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs;
+package com.popovichandroid.dogs;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.bkozyrev.dogs.adapters.AllBreedImagesAdapter;
-import com.bkozyrev.dogs.interfaces.OnBreedResponseListener;
-import com.bkozyrev.dogs.utils.DividerItemDecoration;
+import com.popovichandroid.dogs.adapters.AllBreedImagesAdapter;
+import com.popovichandroid.dogs.interfaces.OnBreedResponseListener;
+import com.popovichandroid.dogs.utils.DividerItemDecoration;
 
 import java.util.ArrayList;
 

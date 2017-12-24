@@ -1,10 +1,8 @@
-package com.bkozyrev.dogs.utils;
+package com.popovichandroid.dogs.utils;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.util.Pair;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
 
 public class Utils {

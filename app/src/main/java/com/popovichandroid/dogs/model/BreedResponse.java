@@ -1,20 +1,22 @@
-package com.bkozyrev.dogs.model;
+package com.popovichandroid.dogs.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RandomImageResponse {
+import java.util.ArrayList;
+
+public class BreedResponse {
 
     @SerializedName("status")
     private String mStatus;
 
     @SerializedName("message")
-    private String mBreedData;
+    private ArrayList<String> mBreedData;
 
     public String getStatus() {
         return mStatus;
     }
 
-    public String getBreedData() {
+    public ArrayList<String> getBreedData() {
         return mBreedData;
     }
 }

@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs.adapters;
+package com.popovichandroid.dogs.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bkozyrev.dogs.R;
-import com.bkozyrev.dogs.utils.Utils;
+import com.popovichandroid.dogs.R;
+import com.popovichandroid.dogs.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

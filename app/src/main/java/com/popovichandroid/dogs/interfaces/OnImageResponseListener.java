@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs.interfaces;
+package com.popovichandroid.dogs.interfaces;
 
 public interface OnImageResponseListener {
 

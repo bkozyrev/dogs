@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs;
+package com.popovichandroid.dogs;
 
 import android.content.Intent;
 import android.os.Build;
@@ -14,7 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
-import com.bkozyrev.dogs.adapters.FullScreenImageAdapter;
+import com.popovichandroid.dogs.adapters.FullScreenImageAdapter;
 
 import java.util.ArrayList;
 

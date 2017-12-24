@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs;
+package com.popovichandroid.dogs;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -8,12 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.bkozyrev.dogs.adapters.AllBreedsListAdapter;
-import com.bkozyrev.dogs.interfaces.OnBreedResponseListener;
-import com.bkozyrev.dogs.interfaces.OnImageResponseListener;
+import com.popovichandroid.dogs.adapters.AllBreedsListAdapter;
+import com.popovichandroid.dogs.interfaces.OnBreedResponseListener;
+import com.popovichandroid.dogs.interfaces.OnImageResponseListener;
 
 import java.util.ArrayList;
 
@@ -25,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AllBreedsListAdapter mAdapter;
     private ProgressBar mProgressBar;
     private Handler mainHandler = new Handler(Looper.getMainLooper());
-
     private HttpGet getApi = new HttpGet();
 
     @Override
@@ -86,6 +88,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+
+        SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String query) {
+                mAdapter.filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+        });
+
+        return true;
     }
 
     @Override

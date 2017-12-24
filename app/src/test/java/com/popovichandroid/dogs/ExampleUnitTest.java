@@ -1,4 +1,4 @@
-package com.bkozyrev.dogs;
+package com.popovichandroid.dogs;
 
 import org.junit.Test;
 

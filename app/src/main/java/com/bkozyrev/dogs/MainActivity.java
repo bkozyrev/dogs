@@ -1,5 +1,6 @@
 package com.bkozyrev.dogs;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 
+import com.bkozyrev.dogs.adapters.AllBreedsListAdapter;
 import com.bkozyrev.dogs.interfaces.OnBreedResponseListener;
 
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView mList;
     private SwipeRefreshLayout mSwipeRefresh;
     private AllBreedsListAdapter mAdapter;
+    private ProgressBar mProgressBar;
+    private Handler mainHandler = new Handler(Looper.getMainLooper());
 
     private HttpGet getApi = new HttpGet();
 
@@ -32,22 +37,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mList = (RecyclerView) findViewById(R.id.list);
         mList.setLayoutManager(new LinearLayoutManager(this));
         mList.setAdapter(mAdapter = new AllBreedsListAdapter(this, this));
+        mProgressBar = findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         getApi.getAllBreeds(new OnBreedResponseListener() {
             @Override
             public void onBreedsResponseSuccess(final ArrayList<String> breeds) {
-                Handler mainHandler = new Handler(Looper.getMainLooper());
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.addData(breeds);
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
             }
 
             @Override
             public void onBreedResponseFail() {
-
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }
@@ -58,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View view) {
+        Intent intent = new Intent(MainActivity.this, BreedImagesActivity.class);
+        intent.putExtra(BreedImagesActivity.BREED_NAME_EXTRA,
+                mAdapter.getItem(mList.getChildAdapterPosition((View) view.getParent().getParent())));
+        startActivity(intent);
     }
 }

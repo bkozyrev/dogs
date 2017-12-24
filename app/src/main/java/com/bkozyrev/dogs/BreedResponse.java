@@ -10,13 +10,13 @@ public class BreedResponse {
     private String mStatus;
 
     @SerializedName("message")
-    private ArrayList<String> mBreedNames;
+    private ArrayList<String> mBreedData;
 
     public String getStatus() {
         return mStatus;
     }
 
-    public ArrayList<String> getBreedNames() {
-        return mBreedNames;
+    public ArrayList<String> getBreedData() {
+        return mBreedData;
     }
 }

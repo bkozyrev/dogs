@@ -1,5 +1,22 @@
 apply plugin: 'com.android.application'
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.google.com' }
+}
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -33,4 +50,5 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
 }

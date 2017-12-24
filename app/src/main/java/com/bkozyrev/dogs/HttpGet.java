@@ -15,6 +15,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class HttpGet {
 
     private String allBreedsUrl = "https://dog.ceo/api/breeds/list";
+    private String allBreedImagesUrlFirstPart = "https://dog.ceo/api/breed/";
+    private String allBreedImagesUrlSecondPart = "/images";
 
     private final OkHttpClient client;
     private final Gson gson = new Gson();
@@ -38,7 +40,25 @@ public class HttpGet {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                listener.onBreedsResponseSuccess(gson.fromJson(response.body().string(), BreedResponse.class).getBreedNames());
+                listener.onBreedsResponseSuccess(gson.fromJson(response.body().string(), BreedResponse.class).getBreedData());
+            }
+        });
+    }
+
+    public void getAllBreedImages(String breedName, final OnBreedResponseListener listener) {
+        Request request = new Request.Builder()
+                .url(allBreedImagesUrlFirstPart + breedName + allBreedImagesUrlSecondPart)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onBreedResponseFail();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onBreedsResponseSuccess(gson.fromJson(response.body().string(), BreedResponse.class).getBreedData());
             }
         });
     }
